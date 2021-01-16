@@ -65,3 +65,27 @@ func (nc *ProfileClient) setClientInfo(keyval ...string) {
 	kv = append(kv, "grpc", grpc.Version)
 	nc.xMetadata = metadata.Pairs("x-ai-api-client", apic.XAntHeader(kv...))
 }
+
+
+func (nc *ProfileClient) GetOrCreateProfileByContactDetail(ctx context.Context, contact string)  (*ProfileObject, error) {
+
+	profileService := NewProfileServiceClient(nc.clientConn)
+
+	contactRequest := ProfileContactRequest{
+		Contact: contact,
+	}
+	return profileService.GetByContact(ctx, &contactRequest)
+}
+
+
+func (nc *ProfileClient) GetProfileByID(ctx context.Context, profileId string)  (*ProfileObject, error) {
+
+	profileService := NewProfileServiceClient(nc.clientConn)
+
+	profileRequest := ProfileIDRequest{
+		ID: profileId,
+	}
+
+	return profileService.GetByID(ctx, &profileRequest)
+}
+
