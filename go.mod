@@ -1,4 +1,4 @@
-module github.com/antinvestor/service-notification-api
+module github.com/antinvestor/service-profile-api
 
 go 1.14
 
