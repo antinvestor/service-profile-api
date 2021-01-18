@@ -5,6 +5,7 @@ import (
 	apic "github.com/antinvestor/apis"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
+	"time"
 
 	"math"
 )
@@ -42,7 +43,7 @@ func NewProfileClient(ctx context.Context, opts ...apic.ClientOption) (*ProfileC
 		return nil, err
 	}
 	cl := &ProfileClient{
-		clientConn:         connPool,
+		clientConn:    connPool,
 		profileClient: NewProfileServiceClient(connPool),
 	}
 
@@ -66,19 +67,10 @@ func (nc *ProfileClient) setClientInfo(keyval ...string) {
 	nc.xMetadata = metadata.Pairs("x-ai-api-client", apic.XAntHeader(kv...))
 }
 
+func (nc *ProfileClient) GetProfileByID(ctx context.Context, profileId string) (*ProfileObject, error) {
 
-func (nc *ProfileClient) GetOrCreateProfileByContactDetail(ctx context.Context, contact string)  (*ProfileObject, error) {
-
-	profileService := NewProfileServiceClient(nc.clientConn)
-
-	contactRequest := ProfileContactRequest{
-		Contact: contact,
-	}
-	return profileService.GetByContact(ctx, &contactRequest)
-}
-
-
-func (nc *ProfileClient) GetProfileByID(ctx context.Context, profileId string)  (*ProfileObject, error) {
+	profileCtx, cancel := context.WithTimeout(ctx, time.Second*15)
+	defer cancel()
 
 	profileService := NewProfileServiceClient(nc.clientConn)
 
@@ -86,6 +78,37 @@ func (nc *ProfileClient) GetProfileByID(ctx context.Context, profileId string)  
 		ID: profileId,
 	}
 
-	return profileService.GetByID(ctx, &profileRequest)
+	return profileService.GetByID(profileCtx, &profileRequest)
 }
 
+func (nc *ProfileClient) CreateProfileByContactAndName(ctx context.Context, contact string, name string) (*ProfileObject, error) {
+
+	profileCtx, cancel := context.WithTimeout(ctx, time.Second*30)
+	defer cancel()
+
+	profileService := NewProfileServiceClient(nc.clientConn)
+
+	properties := make(map[string]string)
+	properties["name"] = name
+
+	createProfileRequest := ProfileCreateRequest{
+		Contact:    contact,
+		Properties: properties,
+	}
+
+	return profileService.Create(profileCtx, &createProfileRequest)
+}
+
+func (nc *ProfileClient) GetProfileByContact(ctx context.Context, contact string) (*ProfileObject, error) {
+
+	profileService := NewProfileServiceClient(nc.clientConn)
+
+	profileCtx, cancel := context.WithTimeout(ctx, time.Second*15)
+	defer cancel()
+
+	contactRequest := ProfileContactRequest{
+		Contact: contact,
+	}
+
+	return profileService.GetByContact(profileCtx, &contactRequest)
+}
