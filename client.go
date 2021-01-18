@@ -10,12 +10,27 @@ import (
 	"math"
 )
 
+const ctxKeyService = "profileClientKey"
+
 func defaultProfileClientOptions() []apic.ClientOption {
 	return []apic.ClientOption{
 		apic.WithEndpoint("profile.api.antinvestor.com:443"),
 		apic.WithGRPCDialOption(grpc.WithDisableServiceConfig()),
 		apic.WithGRPCDialOption(grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(math.MaxInt32))),
 	}
+}
+
+func ToContext(ctx context.Context, profileClient *ProfileClient) context.Context {
+	return context.WithValue(ctx, ctxKeyService, profileClient)
+}
+
+func FromContext(ctx context.Context) *ProfileClient {
+	profileClient, ok := ctx.Value(ctxKeyService).(*ProfileClient)
+	if !ok {
+		return nil
+	}
+
+	return profileClient
 }
 
 // ProfileClient is a client for interacting with the profile service API.
