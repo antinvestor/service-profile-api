@@ -46,7 +46,7 @@ func NewProfileServiceClient(cc grpc.ClientConnInterface) ProfileServiceClient {
 
 func (c *profileServiceClient) GetByID(ctx context.Context, in *ProfileIDRequest, opts ...grpc.CallOption) (*ProfileObject, error) {
 	out := new(ProfileObject)
-	err := c.cc.Invoke(ctx, "/profile.ProfileService/GetByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/apis.ProfileService/GetByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (c *profileServiceClient) GetByID(ctx context.Context, in *ProfileIDRequest
 
 func (c *profileServiceClient) GetByContact(ctx context.Context, in *ProfileContactRequest, opts ...grpc.CallOption) (*ProfileObject, error) {
 	out := new(ProfileObject)
-	err := c.cc.Invoke(ctx, "/profile.ProfileService/GetByContact", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/apis.ProfileService/GetByContact", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (c *profileServiceClient) GetByContact(ctx context.Context, in *ProfileCont
 }
 
 func (c *profileServiceClient) Search(ctx context.Context, in *ProfileSearchRequest, opts ...grpc.CallOption) (ProfileService_SearchClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ProfileService_ServiceDesc.Streams[0], "/profile.ProfileService/Search", opts...)
+	stream, err := c.cc.NewStream(ctx, &ProfileService_ServiceDesc.Streams[0], "/apis.ProfileService/Search", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func (x *profileServiceSearchClient) Recv() (*ProfileObject, error) {
 
 func (c *profileServiceClient) Merge(ctx context.Context, in *ProfileMergeRequest, opts ...grpc.CallOption) (*ProfileObject, error) {
 	out := new(ProfileObject)
-	err := c.cc.Invoke(ctx, "/profile.ProfileService/Merge", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/apis.ProfileService/Merge", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func (c *profileServiceClient) Merge(ctx context.Context, in *ProfileMergeReques
 
 func (c *profileServiceClient) Create(ctx context.Context, in *ProfileCreateRequest, opts ...grpc.CallOption) (*ProfileObject, error) {
 	out := new(ProfileObject)
-	err := c.cc.Invoke(ctx, "/profile.ProfileService/Create", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/apis.ProfileService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +114,7 @@ func (c *profileServiceClient) Create(ctx context.Context, in *ProfileCreateRequ
 
 func (c *profileServiceClient) Update(ctx context.Context, in *ProfileUpdateRequest, opts ...grpc.CallOption) (*ProfileObject, error) {
 	out := new(ProfileObject)
-	err := c.cc.Invoke(ctx, "/profile.ProfileService/Update", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/apis.ProfileService/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +123,7 @@ func (c *profileServiceClient) Update(ctx context.Context, in *ProfileUpdateRequ
 
 func (c *profileServiceClient) AddContact(ctx context.Context, in *ProfileAddContactRequest, opts ...grpc.CallOption) (*ProfileObject, error) {
 	out := new(ProfileObject)
-	err := c.cc.Invoke(ctx, "/profile.ProfileService/AddContact", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/apis.ProfileService/AddContact", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func (c *profileServiceClient) AddContact(ctx context.Context, in *ProfileAddCon
 
 func (c *profileServiceClient) AddAddress(ctx context.Context, in *ProfileAddAddressRequest, opts ...grpc.CallOption) (*ProfileObject, error) {
 	out := new(ProfileObject)
-	err := c.cc.Invoke(ctx, "/profile.ProfileService/AddAddress", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/apis.ProfileService/AddAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +213,7 @@ func _ProfileService_GetByID_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.ProfileService/GetByID",
+		FullMethod: "/apis.ProfileService/GetByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProfileServiceServer).GetByID(ctx, req.(*ProfileIDRequest))
@@ -231,7 +231,7 @@ func _ProfileService_GetByContact_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.ProfileService/GetByContact",
+		FullMethod: "/apis.ProfileService/GetByContact",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProfileServiceServer).GetByContact(ctx, req.(*ProfileContactRequest))
@@ -270,7 +270,7 @@ func _ProfileService_Merge_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.ProfileService/Merge",
+		FullMethod: "/apis.ProfileService/Merge",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProfileServiceServer).Merge(ctx, req.(*ProfileMergeRequest))
@@ -288,7 +288,7 @@ func _ProfileService_Create_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.ProfileService/Create",
+		FullMethod: "/apis.ProfileService/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProfileServiceServer).Create(ctx, req.(*ProfileCreateRequest))
@@ -306,7 +306,7 @@ func _ProfileService_Update_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.ProfileService/Update",
+		FullMethod: "/apis.ProfileService/Update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProfileServiceServer).Update(ctx, req.(*ProfileUpdateRequest))
@@ -324,7 +324,7 @@ func _ProfileService_AddContact_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.ProfileService/AddContact",
+		FullMethod: "/apis.ProfileService/AddContact",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProfileServiceServer).AddContact(ctx, req.(*ProfileAddContactRequest))
@@ -342,7 +342,7 @@ func _ProfileService_AddAddress_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/profile.ProfileService/AddAddress",
+		FullMethod: "/apis.ProfileService/AddAddress",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProfileServiceServer).AddAddress(ctx, req.(*ProfileAddAddressRequest))
@@ -354,7 +354,7 @@ func _ProfileService_AddAddress_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProfileService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "profile.ProfileService",
+	ServiceName: "apis.ProfileService",
 	HandlerType: (*ProfileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -393,5 +393,5 @@ var ProfileService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "profile.proto",
+	Metadata: "profile/v1/profile.proto",
 }
