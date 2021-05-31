@@ -69,25 +69,25 @@ func NewProfileClient(ctx context.Context, opts ...apic.ClientOption) (*ProfileC
 
 // Close closes the connection to the API service. The user should invoke this when
 // the client is no longer required.
-func (nc *ProfileClient) Close() error {
-	return nc.clientConn.Close()
+func (pc *ProfileClient) Close() error {
+	return pc.clientConn.Close()
 }
 
 // setClientInfo sets the name and version of the application in
 // the `x-goog-api-client` header passed on each request. Intended for
 // use by Google-written clients.
-func (nc *ProfileClient) setClientInfo(keyval ...string) {
+func (pc *ProfileClient) setClientInfo(keyval ...string) {
 	kv := append([]string{"gl-go", apic.VersionGo()}, keyval...)
 	kv = append(kv, "grpc", grpc.Version)
-	nc.xMetadata = metadata.Pairs("x-ai-api-client", apic.XAntHeader(kv...))
+	pc.xMetadata = metadata.Pairs("x-ai-api-client", apic.XAntHeader(kv...))
 }
 
-func (nc *ProfileClient) GetProfileByID(ctx context.Context, profileId string) (*ProfileObject, error) {
+func (pc *ProfileClient) GetProfileByID(ctx context.Context, profileId string) (*ProfileObject, error) {
 
 	profileCtx, cancel := context.WithTimeout(ctx, time.Second*15)
 	defer cancel()
 
-	profileService := NewProfileServiceClient(nc.clientConn)
+	profileService := NewProfileServiceClient(pc.clientConn)
 
 	profileRequest := ProfileIDRequest{
 		ID: profileId,
@@ -96,12 +96,12 @@ func (nc *ProfileClient) GetProfileByID(ctx context.Context, profileId string) (
 	return profileService.GetByID(profileCtx, &profileRequest)
 }
 
-func (nc *ProfileClient) CreateProfileByContactAndName(ctx context.Context, contact string, name string) (*ProfileObject, error) {
+func (pc *ProfileClient) CreateProfileByContactAndName(ctx context.Context, contact string, name string) (*ProfileObject, error) {
 
 	profileCtx, cancel := context.WithTimeout(ctx, time.Second*30)
 	defer cancel()
 
-	profileService := NewProfileServiceClient(nc.clientConn)
+	profileService := NewProfileServiceClient(pc.clientConn)
 
 	properties := make(map[string]string)
 	properties["name"] = name
@@ -114,9 +114,9 @@ func (nc *ProfileClient) CreateProfileByContactAndName(ctx context.Context, cont
 	return profileService.Create(profileCtx, &createProfileRequest)
 }
 
-func (nc *ProfileClient) GetProfileByContact(ctx context.Context, contact string) (*ProfileObject, error) {
+func (pc *ProfileClient) GetProfileByContact(ctx context.Context, contact string) (*ProfileObject, error) {
 
-	profileService := NewProfileServiceClient(nc.clientConn)
+	profileService := NewProfileServiceClient(pc.clientConn)
 
 	profileCtx, cancel := context.WithTimeout(ctx, time.Second*15)
 	defer cancel()
