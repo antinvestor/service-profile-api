@@ -615,23 +615,19 @@ func (m *ProfileCreateRequest) Validate() error {
 		return nil
 	}
 
-	if l := utf8.RuneCountInString(m.GetID()); l < 3 || l > 40 {
+	if _, ok := ProfileType_name[int32(m.GetType())]; !ok {
 		return ProfileCreateRequestValidationError{
-			field:  "ID",
-			reason: "value length must be between 3 and 40 runes, inclusive",
+			field:  "Type",
+			reason: "value must be one of the defined enum values",
 		}
 	}
 
-	if !_ProfileCreateRequest_ID_Pattern.MatchString(m.GetID()) {
+	if l := utf8.RuneCountInString(m.GetContact()); l < 3 || l > 255 {
 		return ProfileCreateRequestValidationError{
-			field:  "ID",
-			reason: "value does not match regex pattern \"[0-9a-z_-]{3,20}\"",
+			field:  "Contact",
+			reason: "value length must be between 3 and 255 runes, inclusive",
 		}
 	}
-
-	// no validation rules for Type
-
-	// no validation rules for Contact
 
 	// no validation rules for Properties
 
@@ -693,8 +689,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ProfileCreateRequestValidationError{}
-
-var _ProfileCreateRequest_ID_Pattern = regexp.MustCompile("[0-9a-z_-]{3,20}")
 
 // Validate checks the field values on ProfileUpdateRequest with the rules
 // defined in the proto definition for this message. If any rules are
